@@ -1,31 +1,46 @@
+use crate::crud::Crud;
 use crate::entities::Entity;
 use crate::errors::OpenMetadataError;
-use reqwest::Client;
+use futures::Future;
 use uuid::Uuid;
 
 // Authentication and connection handling
+#[derive(serde::Serialize, serde::Deserialize)]
 pub struct OpenMetadataClient {
     base_url: String,
     auth_token: String,
-    client: reqwest::Client,
+    // client: reqwest::Client,
 }
 
-impl Entity for OpenMetadataClient {}
+impl Entity for OpenMetadataClient {
+    fn entity_type() -> &'static str {
+        "openmetadata_client"
+    }
+}
 
-impl OpenMetadataClient {
-    pub async fn create<T: Entity>(&self, entity: &T) -> Result<(), OpenMetadataError> {
-        Ok(())
+impl Crud for OpenMetadataClient {
+    type Entity = OpenMetadataClient;
+
+    fn create<T: Entity>(
+        &self,
+        _entity: &T,
+    ) -> impl Future<Output = Result<Uuid, OpenMetadataError>> {
+        async move { Ok(Uuid::new_v4()) }
     }
-    pub async fn get_by_id<T: Entity>(&self, id: &Uuid) -> Result<Option<()>, OpenMetadataError> {
-        Ok(Some(()))
+    fn read<T: Entity>(
+        &self,
+        _id: &Uuid,
+    ) -> impl Future<Output = Result<Option<T>, OpenMetadataError>> {
+        async move { Ok(None) }
     }
-    pub async fn get_by_name<T: Entity>(&self, fqn: &str) -> Result<Option<()>, OpenMetadataError> {
-        Ok(Some(()))
+    fn update<T: Entity>(
+        &self,
+        _id: &Uuid,
+        _entity: &T,
+    ) -> impl Future<Output = Result<(), OpenMetadataError>> {
+        async move { Ok(()) }
     }
-    pub async fn update<T: Entity>(&self, entity: &T) -> Result<(), OpenMetadataError> {
-        Ok(())
-    }
-    pub async fn delete<T: Entity>(&self, id: &Uuid) -> Result<(), OpenMetadataError> {
-        Ok(())
+    fn delete<T: Entity>(&self, _id: &Uuid) -> impl Future<Output = Result<(), OpenMetadataError>> {
+        async move { Ok(()) }
     }
 }

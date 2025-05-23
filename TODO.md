@@ -48,3 +48,25 @@ Not sure how I want to do this, but it would be really nice to make these things
   - [ ] tags
   - [ ] feeds
   - [ ] usage
+
+## Roadmap
+
+- [ ] Auto-generated models from JSON schemas
+- [ ] Builder patterns for all entities
+- [ ] Pagination support
+- [ ] Async/streaming for large result sets
+- [ ] Entity-specific helper methods
+- [ ] Integration tests
+- [ ] Complete entity coverage
+- [ ] Lineage operations
+- [ ] Search functionality
+- [ ] Bulk operations
+- [ ] Caching layer
+
+Implementation Approach
+
+Start with manual struct definitions for core entities
+Use reqwest for HTTP client with tokio for async
+Use serde and serde_json for serialization
+Use thiserror for error handling
+Consider using derive_builder crate for builder patterns

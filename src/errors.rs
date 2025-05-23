@@ -1,16 +1,15 @@
-use reqwest;
-use serde_json;
-use thiserror::Error;
-
+/// Error categories for OpenMetadata SDK.
 #[derive(Debug, thiserror::Error)]
 pub enum OpenMetadataError {
+    /// HTTP related error
     #[error("HTTP error: {0}")]
     Http(String),
+    /// Serialization related error
     #[error("Serialization error: {0}")]
     Serialization(String),
+    /// Error for if the entity is not found
     #[error("Entity not found: {0}")]
     NotFound(String),
-    // ... other variants
 }
 
 #[cfg(test)]

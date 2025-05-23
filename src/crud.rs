@@ -1,5 +1,6 @@
 use crate::entities::Entity;
 use crate::errors::OpenMetadataError;
+use futures::future::Future;
 use uuid::Uuid;
 
 /// Required operations for entities to be CRUD compatible.
@@ -7,16 +8,29 @@ pub trait Crud {
     type Entity: Entity;
 
     /// Create a new entity.
-    async fn create(&self, entity: &Self::Entity) -> Result<Uuid, OpenMetadataError>;
+    fn create<T: Entity>(
+        &self,
+        entity: &T,
+    ) -> impl Future<Output = Result<Uuid, OpenMetadataError>> + Send;
 
     /// Read an entity by its ID.
-    async fn read(&self, id: &Uuid) -> Result<Option<Self::Entity>, OpenMetadataError>;
+    fn read<T: Entity>(
+        &self,
+        id: &Uuid,
+    ) -> impl Future<Output = Result<Option<T>, OpenMetadataError>> + Send;
 
     /// Update an entity by its ID.
-    async fn update(&self, id: &Uuid, entity: &Self::Entity) -> Result<(), OpenMetadataError>;
+    fn update<T: Entity>(
+        &self,
+        id: &Uuid,
+        entity: &T,
+    ) -> impl Future<Output = Result<(), OpenMetadataError>> + Send;
 
     /// Delete an entity.
-    async fn delete(&self, id: &Uuid) -> Result<(), OpenMetadataError>;
+    fn delete<T: Entity>(
+        &self,
+        id: &Uuid,
+    ) -> impl Future<Output = Result<(), OpenMetadataError>> + Send;
 }
 
 // #[cfg(test)]
