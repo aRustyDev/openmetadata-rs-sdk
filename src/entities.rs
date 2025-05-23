@@ -1,5 +1,7 @@
 // use serde::{Deserialize, Serialize};
 // use uuid::Uuid;
+use serde::de::DeserializeOwned;
+use serde::{Deserialize, Serialize};
 
 // #[derive(Debug, Serialize, Deserialize)]
 // #[serde(rename_all = "camelCase")]
@@ -11,7 +13,9 @@
 //     // ... other fields
 // }
 
-pub trait Entity {}
+pub trait Entity: Serialize + DeserializeOwned {
+    fn entity_type() -> &'static str;
+}
 
 // pub struct TableBuilder {
 //     name: String,

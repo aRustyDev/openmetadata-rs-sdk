@@ -1,11 +1,22 @@
-use crate::connection::OpenMetadataClient;
+use crate::entities::Entity;
 use crate::errors::OpenMetadataError;
-use serde::de::DeserializeOwned;
-use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-pub trait Entity: Serialize + DeserializeOwned {
-    fn entity_type() -> &'static str;
+/// Required operations for entities to be CRUD compatible.
+pub trait Crud {
+    type Entity: Entity;
+
+    /// Create a new entity.
+    async fn create(&self, entity: &Self::Entity) -> Result<Uuid, OpenMetadataError>;
+
+    /// Read an entity by its ID.
+    async fn read(&self, id: &Uuid) -> Result<Option<Self::Entity>, OpenMetadataError>;
+
+    /// Update an entity by its ID.
+    async fn update(&self, id: &Uuid, entity: &Self::Entity) -> Result<(), OpenMetadataError>;
+
+    /// Delete an entity.
+    async fn delete(&self, id: &Uuid) -> Result<(), OpenMetadataError>;
 }
 
 // #[cfg(test)]
