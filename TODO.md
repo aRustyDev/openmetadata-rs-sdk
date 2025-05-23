@@ -1,5 +1,9 @@
 # TODOs
 
+## Macros
+
+Not sure how I want to do this, but it would be really nice to make these things easily implementable via macros
+
 ## Schemas
 - [ ] Settings
 - [ ] Configuration
