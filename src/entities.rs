@@ -13,8 +13,18 @@ use serde::de::DeserializeOwned;
 //     // ... other fields
 // }
 
+/// The Entity trait defines the common interface for all entities in the OpenMetadata ecosystem.
+///
+/// Possible Entities include
+/// - Tables
+/// - Databases
+/// - Users
 pub trait Entity: Serialize + DeserializeOwned {
+    /// Returns the type of the entity.
     fn entity_type() -> &'static str;
+
+    /// Default implementation for creating a new entity. Useful for testing or creating default instances.
+    fn default() -> Self;
 }
 
 // pub struct TableBuilder {
