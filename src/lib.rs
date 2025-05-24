@@ -1,5 +1,5 @@
 /// Connection management operations for OpenMetadata SDK.
-pub mod connection;
+pub mod client;
 
 /// CRUD operations for OpenMetadata SDK.
 pub mod crud;
