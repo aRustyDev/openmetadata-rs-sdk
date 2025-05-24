@@ -4,7 +4,7 @@ use crate::errors::OpenMetadataError;
 use futures::Future;
 use uuid::Uuid;
 
-// Authentication and connection handling
+/// Authentication and connection handling
 #[derive(serde::Serialize, serde::Deserialize)]
 pub struct OpenMetadataClient {
     base_url: String,
@@ -15,6 +15,12 @@ pub struct OpenMetadataClient {
 impl Entity for OpenMetadataClient {
     fn entity_type() -> &'static str {
         "openmetadata_client"
+    }
+    fn default() -> Self {
+        Self {
+            base_url: String::new(),
+            auth_token: String::new(),
+        }
     }
 }
 
@@ -27,12 +33,14 @@ impl Crud for OpenMetadataClient {
     ) -> impl Future<Output = Result<Uuid, OpenMetadataError>> {
         async move { Ok(Uuid::new_v4()) }
     }
+
     fn read<T: Entity>(
         &self,
         _id: &Uuid,
     ) -> impl Future<Output = Result<Option<T>, OpenMetadataError>> {
-        async move { Ok(None) }
+        async move { Ok(Some(T::default())) }
     }
+
     fn update<T: Entity>(
         &self,
         _id: &Uuid,
@@ -40,6 +48,7 @@ impl Crud for OpenMetadataClient {
     ) -> impl Future<Output = Result<(), OpenMetadataError>> {
         async move { Ok(()) }
     }
+
     fn delete<T: Entity>(&self, _id: &Uuid) -> impl Future<Output = Result<(), OpenMetadataError>> {
         async move { Ok(()) }
     }
